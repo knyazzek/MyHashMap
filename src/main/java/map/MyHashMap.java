@@ -1,3 +1,5 @@
+package map;
+
 import com.google.common.math.IntMath;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -60,6 +62,14 @@ public class MyHashMap<K,V> {
         return buckets[index].addNode(nodeToAdd);
     }
 
+    public V get(K key) {
+        int index = hash(key);
+        if (buckets[index] != null) {
+            return buckets[index].getNode(key);
+        }
+        return null;
+    }
+
     public V remove(K nodeToRemoveKey) {
         int index = hash(nodeToRemoveKey);
         if (buckets[index] != null) {
@@ -92,7 +102,7 @@ public class MyHashMap<K,V> {
         this.buckets = bucketsTmp;
     }
 
-    public int hash(K key) {
+    private int hash(K key) {
         if (key == null) return 0;
 
         return key.hashCode() & (capacity-1);
@@ -125,6 +135,15 @@ public class MyHashMap<K,V> {
                 }
             }
             nodes.add(nodeToAdd);
+            return null;
+        }
+
+        public V getNode(K key) {
+            for (Node<K,V> node : nodes) {
+                if (node.key.equals(key)) {
+                    return node.value;
+                }
+            }
             return null;
         }
 
@@ -196,6 +215,14 @@ public class MyHashMap<K,V> {
 
     public int size() {
         return size;
+    }
+
+    public boolean containKey(K key) {
+        return keySet().contains(key);
+    }
+
+    public boolean containValue(V value) {
+        return values().contains(value);
     }
 
     public Set<Node<K,V>> nodeSet() {
